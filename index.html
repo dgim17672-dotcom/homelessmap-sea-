@@ -316,8 +316,7 @@ map.on('click', function(e) {
   pendingLatLng = latlng;
   if (tempMarker) map.removeLayer(tempMarker);
   tempMarker = L.marker([latlng.lat, latlng.lng], { icon: ICONS.temp }).addTo(map);
-  map.panTo([latlng.lat, latlng.lng]);
-  setTimeout(() => showForm(), 100);
+  showForm();
 });
 
 // ── FORM ──────────────────────────────────────────────
@@ -376,13 +375,21 @@ async function addPin() {
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
+  // Show pin immediately on map
+  if (tempMarker) { map.removeLayer(tempMarker); tempMarker = null; }
+  const immediateMarker = L.marker([pin.lat, pin.lng], { icon: ICONS[pin.type] }).addTo(map);
+  const label = '$' + pin.price.toFixed(2);
+  immediateMarker.bindTooltip(label, { permanent: true, direction: 'top', offset: [0,-8], className: 'price-tip' });
+  closeForm();
+  showToast('✅ Pin added!');
   try {
     const ref = await db.collection('pins').add(pin);
-    closeForm();
-    placeMarker({ id: ref.id, ...pin });
-    showToast('✅ Pin added!');
+    immediateMarker.on('click', function(e) {
+      L.DomEvent.stopPropagation(e);
+      openDetail({ id: ref.id, ...pin });
+    });
   } catch(e) {
-    showToast('Error saving. Try again.');
+    showToast('Saved locally only');
   }
 }
 
