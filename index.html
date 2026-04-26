@@ -305,7 +305,8 @@ function closeWelcome() {
 
 // ── MAP CLICK ─────────────────────────────────────────
 map.on('click', function(e) {
-  if (document.getElementById('detail-overlay').style.display === 'flex') {
+ if (document.getElementById('form-overlay').style.display === 'flex') return;
+ if (document.getElementById('detail-overlay').style.display === 'flex') {
     closeDetail(); return;
   }
   const latlng = e.latlng;
