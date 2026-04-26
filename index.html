@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>HomelessMap SEA</title>
+<title>HomelessMap Asia</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -136,17 +136,20 @@
 <!-- WELCOME -->
 <div id="welcome-overlay">
   <div id="welcome-box">
-    <h2>📖 HomelessMap SEA</h2>
+    <h2>📖 HomelessMap Asia</h2>
     <div style="background:#f0fff4;border:1px solid #c3f0d0;border-radius:8px;padding:10px;margin-bottom:12px;font-size:13px;color:#007e33;">
       ✈️ Travelers — share cheap spots, help the next person survive cheaper! 🙏<br>
       🏪 Local business? Pin your place — it's FREE advertising!
     </div>
     <p style="font-size:13px;color:#222;font-weight:700;margin-bottom:8px;">How it works:</p>
     <p style="font-size:13px;color:#333;line-height:1.7;margin-bottom:12px;">
-      📍 Tap map → add cheap spot<br>
-      🍜 Food under $1.50 · ✂️ Barber under $1.50 · 🛏️ Sleep under $5<br>
+      📍 Long press map → add cheap spot<br>
+      🍜 Food under $3 · ✂️ Barber under $3 · 🛏️ Sleep under $10<br>
       👍👎 Vote on prices — wrong prices auto-hide<br>
       🔓 No sign-up needed. Free forever.
+    </p>
+    <p style="font-size:12px;color:#c0392b;font-weight:600;margin-bottom:12px;">
+      Overspend today, homeless tomorrow. Spend smart. ❤️
     </p>
     <p style="font-size:10px;color:#999;margin-bottom:14px;">By using HomelessMap you agree that all prices are user-submitted and unverified. HomelessMap is not responsible for price changes or inaccuracies. Use at your own discretion. We do not collect personal information. | Terms of Use | Privacy Policy</p>
     <button id="btn-welcome" onclick="closeWelcome()">Got it — Show me cheap spots! 🚀</button>
@@ -164,8 +167,8 @@
     </div>
     <div class="form-row">
       <label>PRICE (USD) *</label>
-      <input id="inp-price" type="number" step="0.01" min="0.01" placeholder="e.g. 1.20">
-      <div class="form-hint" id="price-hint">Max $1.50 for food</div>
+      <input id="inp-price" type="number" step="0.01" min="0.01" placeholder="e.g. 2.50">
+      <div class="form-hint" id="price-hint">Max $3.00 for food</div>
     </div>
     <div class="form-row">
       <label>PLACE NAME (optional)</label>
@@ -210,8 +213,8 @@
 <div id="header">
   <div id="logo">$↓</div>
   <div>
-    <div id="title">HomelessMap SEA</div>
-    <div id="subtitle">Cheapest spots in Southeast Asia</div>
+    <div id="title">HomelessMap Asia</div>
+    <div id="subtitle">Cheapest spots across Asia</div>
   </div>
   <div id="legend">
     <span class="leg">🔴 Food</span>
@@ -248,7 +251,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // ── MAP ───────────────────────────────────────────────
-const map = L.map('map', { zoomControl: false }).setView([13.75, 100.5], 6);
+const map = L.map('map', { zoomControl: false }).setView([25, 80], 4);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap'
 }).addTo(map);
@@ -262,7 +265,7 @@ let userLatLng = null;
 let locationDenied = false;
 let tempMarker = null;
 
-const PRICE_LIMITS = { food: 1.50, barber: 1.50, stay: 5.00 };
+const PRICE_LIMITS = { food: 3.00, barber: 3.00, stay: 10.00 };
 const MAX_DIST_KM = 50;
 
 const ICONS = {
@@ -307,9 +310,10 @@ map.on('click', function(e) {
   }
   const latlng = e.latlng;
 
-  // SEA bounds check only
-  if (latlng.lat < -10 || latlng.lat > 28 || latlng.lng < 92 || latlng.lng > 141) {
-    showToast('🌏 SEA region only');
+  // Asia bounds check (동남아+남아시아+중동+중앙아시아+튀르키예)
+  // 위도: -10 ~ 42, 경도: 26 ~ 141
+  if (latlng.lat < -10 || latlng.lat > 42 || latlng.lng < 26 || latlng.lng > 141) {
+    showToast('🌏 Asia region only');
     return;
   }
 
@@ -345,7 +349,7 @@ function selectType(el) {
   document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   selectedType = el.dataset.type;
-  const hints = { food:'Max $1.50 for food', barber:'Max $1.50 for haircut', stay:'Max $5.00 for stay' };
+  const hints = { food:'Max $3.00 for food', barber:'Max $3.00 for haircut', stay:'Max $10.00 for stay' };
   document.getElementById('price-hint').textContent = hints[selectedType];
 }
 
@@ -375,7 +379,6 @@ async function addPin() {
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  // Show pin immediately on map
   if (tempMarker) { map.removeLayer(tempMarker); tempMarker = null; }
   const immediateMarker = L.marker([pin.lat, pin.lng], { icon: ICONS[pin.type] }).addTo(map);
   const label = '$' + pin.price.toFixed(2);
@@ -383,7 +386,7 @@ async function addPin() {
   closeForm();
   showToast('✅ Pin added!');
   try {
-    const ref = await db.collection('pins').add(pin);
+    const ref = await db.collection('pins_asia').add(pin);
     immediateMarker.on('click', function(e) {
       L.DomEvent.stopPropagation(e);
       openDetail({ id: ref.id, ...pin });
@@ -407,7 +410,7 @@ function placeMarker(pin) {
 
 // ── LOAD PINS ─────────────────────────────────────────
 function loadPins() {
-  db.collection('pins').where('hidden','==',false).get().then(snap => {
+  db.collection('pins_asia').where('hidden','==',false).get().then(snap => {
     snap.forEach(doc => placeMarker({ id: doc.id, ...doc.data() }));
   });
 }
@@ -438,7 +441,7 @@ async function vote(dir) {
   if (localStorage.getItem(voteKey)) {
     showToast('You already voted on this pin!'); return;
   }
-  const ref = db.collection('pins').doc(currentPinId);
+  const ref = db.collection('pins_asia').doc(currentPinId);
   const snap = await ref.get();
   if (!snap.exists) return;
   const data = snap.data();
@@ -460,9 +463,9 @@ function showToast(msg) {
 }
 
 // ── LEGAL ─────────────────────────────────────────────
-function showTerms() { alert('Terms of Use\n\nBy using HomelessMap SEA, you agree to post only accurate price information. Spam or false data will be removed.'); }
+function showTerms() { alert('Terms of Use\n\nBy using HomelessMap Asia, you agree to post only accurate price information. Spam or false data will be removed.'); }
 function showPrivacy() { alert('Privacy Policy\n\nWe collect only pin location and price data. No personal data is stored without your consent.'); }
-function showDisclaimer() { alert('Disclaimer\n\nPrices are user-submitted and may be inaccurate. HomelessMap SEA is not responsible for any discrepancies. Always confirm prices directly.'); }
+function showDisclaimer() { alert('Disclaimer\n\nPrices are user-submitted and may be inaccurate. HomelessMap Asia is not responsible for any discrepancies. Always confirm prices directly.'); }
 
 // ── INIT ──────────────────────────────────────────────
 loadPins();
