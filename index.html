@@ -10,16 +10,16 @@
   html, body { height:100%; font-family: 'Segoe UI', sans-serif; }
   #map { width:100%; height:100vh; }
 
-  /* ── OVERLAY BASE ── */
   .overlay {
     display:none; position:fixed; inset:0;
     background:rgba(0,0,0,0.55); z-index:1000;
-    align-items:center; justify-content:center;
+    align-items:center; justify-content:center; padding:12px;
   }
   .overlay.active { display:flex; }
   .card {
     background:#fff; border-radius:16px;
-    padding:24px; width:92%; max-width:400px;
+    padding:22px; width:100%; max-width:420px;
+    max-height:90vh; overflow-y:auto;
     box-shadow:0 8px 40px rgba(0,0,0,0.25);
     animation: slideUp .25s ease;
   }
@@ -27,101 +27,95 @@
     from { transform:translateY(30px); opacity:0; }
     to   { transform:translateY(0);    opacity:1; }
   }
-  .card h2 { font-size:1.2rem; margin-bottom:6px; color:#222; }
-  .card p  { font-size:.85rem; color:#555; margin-bottom:14px; line-height:1.5; }
 
-  /* ── WELCOME POPUP ── */
-  #welcome-card h1 { font-size:1.4rem; color:#e65c00; margin-bottom:8px; }
-  #welcome-card .how { background:#fff8f0; border-radius:10px; padding:12px; margin-bottom:12px; font-size:.83rem; line-height:1.8; color:#444; }
-  #welcome-card .warning { font-size:.8rem; color:#888; margin-bottom:14px; }
-  #welcome-card .overspend { font-size:.88rem; color:#c0392b; font-weight:600; margin-bottom:16px; }
-  #welcome-card .disclaimer { font-size:.72rem; color:#aaa; margin-bottom:16px; line-height:1.5; }
-  #btn-start {
-    width:100%; padding:13px; background:#e65c00; color:#fff;
-    border:none; border-radius:10px; font-size:1rem; font-weight:700;
-    cursor:pointer; transition:background .2s;
+  /* WELCOME */
+  #welcome-card h1 { font-size:1.5rem; color:#222; font-weight:800; margin-bottom:12px; }
+  #welcome-card .how {
+    background:#f0f7ff; border-radius:10px;
+    padding:12px 14px; margin-bottom:12px;
+    font-size:.84rem; line-height:1.9; color:#333;
   }
-  #btn-start:hover { background:#c94f00; }
+  #welcome-card .how b { display:block; margin-bottom:2px; color:#111; }
+  #welcome-card .overspend {
+    font-size:.9rem; color:#c0392b; font-weight:700;
+    margin-bottom:12px; text-align:center;
+  }
+  #welcome-card .disclaimer {
+    font-size:.72rem; color:#aaa; margin-bottom:16px;
+    line-height:1.5; border-top:1px solid #f0f0f0; padding-top:10px;
+  }
+  #welcome-card .disclaimer a { color:#aaa; }
+  #btn-start {
+    width:100%; padding:14px; background:#27ae60; color:#fff;
+    border:none; border-radius:10px; font-size:1rem; font-weight:700;
+    cursor:pointer;
+  }
 
-  /* ── CATEGORY PICKER ── */
-  #cat-card h2 { margin-bottom:16px; }
-  .cat-buttons { display:flex; gap:10px; margin-bottom:16px; }
+  /* CATEGORY PICKER */
+  #cat-card h2 { font-size:1.1rem; color:#222; margin-bottom:14px; }
+  .cat-buttons { display:flex; gap:8px; margin-bottom:14px; }
   .cat-btn {
-    flex:1; padding:14px 6px; border:2px solid #ddd; border-radius:12px;
-    background:#fff; font-size:.85rem; font-weight:600; cursor:pointer;
+    flex:1; padding:12px 4px; border:2px solid #e0e0e0; border-radius:12px;
+    background:#fff; font-size:.82rem; font-weight:600; cursor:pointer;
     transition:all .15s; text-align:center;
   }
-  .cat-btn:hover { border-color:#e65c00; background:#fff8f0; }
-  .cat-btn.selected { border-color:#e65c00; background:#fff8f0; }
-  .cat-btn .icon { font-size:1.5rem; display:block; margin-bottom:4px; }
-  .cat-btn .label { display:block; }
-  .cat-btn .maxprice { display:block; font-size:.72rem; color:#888; font-weight:400; }
+  .cat-btn.selected { border-color:#27ae60; background:#f0fff5; }
+  .cat-btn .icon { font-size:1.4rem; display:block; margin-bottom:3px; }
+  .cat-btn .maxprice { display:block; font-size:.7rem; color:#888; font-weight:400; }
 
-  /* price + name fields */
-  .field-group { margin-bottom:12px; }
-  .field-group label { display:block; font-size:.8rem; color:#666; margin-bottom:4px; font-weight:600; }
+  .field-group { margin-bottom:10px; }
+  .field-group label { display:block; font-size:.78rem; color:#555; margin-bottom:3px; font-weight:600; }
   .field-group input {
-    width:100%; padding:10px 12px; border:1.5px solid #ddd;
-    border-radius:8px; font-size:.95rem; outline:none; transition:border .15s;
+    width:100%; padding:9px 11px; border:1.5px solid #ddd;
+    border-radius:8px; font-size:.92rem; outline:none; transition:border .15s;
   }
-  .field-group input:focus { border-color:#e65c00; }
-  .field-hint { font-size:.75rem; color:#aaa; margin-top:3px; }
+  .field-group input:focus { border-color:#27ae60; }
+  .field-hint { font-size:.73rem; color:#aaa; margin-top:3px; }
 
-  .btn-row { display:flex; gap:10px; margin-top:4px; }
+  .btn-row { display:flex; gap:8px; margin-top:10px; }
   .btn-cancel {
     flex:1; padding:11px; border:1.5px solid #ddd; border-radius:9px;
     background:#fff; color:#666; font-size:.9rem; cursor:pointer;
   }
   .btn-submit {
-    flex:2; padding:11px; background:#e65c00; color:#fff;
+    flex:2; padding:11px; background:#27ae60; color:#fff;
     border:none; border-radius:9px; font-size:.9rem; font-weight:700; cursor:pointer;
   }
-  .btn-submit:hover { background:#c94f00; }
 
-  /* ── DETAIL ── */
-  #detail-card .pin-type { font-size:.8rem; font-weight:700; color:#e65c00; text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
-  #detail-card .pin-name { font-size:1.2rem; font-weight:700; color:#222; margin-bottom:2px; }
-  #detail-card .pin-price { font-size:1.5rem; font-weight:800; color:#e65c00; margin-bottom:4px; }
-  #detail-card .pin-meta  { font-size:.8rem; color:#999; margin-bottom:14px; }
-  .vote-row { display:flex; gap:10px; margin-bottom:14px; }
+  /* DETAIL */
+  #detail-card .pin-type { font-size:.78rem; font-weight:700; color:#27ae60; text-transform:uppercase; letter-spacing:.06em; margin-bottom:3px; }
+  #detail-card .pin-name { font-size:1.2rem; font-weight:800; color:#222; margin-bottom:2px; }
+  #detail-card .pin-price { font-size:1.6rem; font-weight:800; color:#e65c00; margin-bottom:4px; }
+  #detail-card .pin-meta  { font-size:.8rem; color:#999; margin-bottom:12px; }
+  .contact-box { background:#f9f9f9; border-radius:8px; padding:10px 12px; margin-bottom:12px; font-size:.82rem; color:#555; line-height:1.8; white-space:pre-line; }
+  .vote-row { display:flex; gap:10px; margin-bottom:10px; }
   .vote-btn {
     flex:1; padding:12px; border:1.5px solid #ddd; border-radius:10px;
-    background:#fff; font-size:1.1rem; cursor:pointer; transition:all .15s;
-    font-weight:600;
+    background:#fff; font-size:1rem; cursor:pointer; font-weight:600;
   }
-  .vote-btn:hover { border-color:#e65c00; background:#fff8f0; }
-  #vote-msg { font-size:.82rem; color:#4caf50; text-align:center; min-height:18px; }
-  .contact-info { font-size:.82rem; color:#666; background:#f9f9f9; padding:10px 12px; border-radius:8px; margin-bottom:12px; }
+  #vote-msg { font-size:.82rem; color:#27ae60; text-align:center; min-height:18px; margin-bottom:8px; }
   #btn-close-detail {
     width:100%; padding:11px; border:1.5px solid #ddd; border-radius:9px;
-    background:#fff; color:#666; font-size:.9rem; cursor:pointer; margin-top:4px;
+    background:#fff; color:#666; font-size:.9rem; cursor:pointer;
   }
 
-  /* ── LEGEND ── */
+  /* LEGEND */
   #legend {
     position:fixed; bottom:20px; left:12px; background:#fff;
     border-radius:10px; padding:10px 14px; font-size:.78rem;
     box-shadow:0 2px 12px rgba(0,0,0,.15); z-index:500; line-height:1.9;
   }
-  #legend b { display:block; color:#e65c00; font-size:.8rem; margin-bottom:2px; }
+  #legend b { display:block; color:#27ae60; font-size:.8rem; margin-bottom:2px; }
 
-  /* ── TOAST ── */
-  #toast {
+  /* TOAST */
+  #toast, #region-msg {
     position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
-    background:rgba(0,0,0,.78); color:#fff; padding:10px 20px;
-    border-radius:20px; font-size:.85rem; z-index:9999;
-    opacity:0; transition:opacity .3s; pointer-events:none;
+    color:#fff; padding:10px 20px; border-radius:20px; font-size:.85rem;
+    z-index:9999; opacity:0; transition:opacity .3s; pointer-events:none; white-space:nowrap;
   }
-  #toast.show { opacity:1; }
-
-  /* ── REGION UNAVAILABLE ── */
-  #region-msg {
-    position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
-    background:#c0392b; color:#fff; padding:10px 22px;
-    border-radius:20px; font-size:.85rem; z-index:9999;
-    opacity:0; transition:opacity .3s; pointer-events:none; white-space:nowrap;
-  }
-  #region-msg.show { opacity:1; }
+  #toast { background:rgba(0,0,0,.78); }
+  #region-msg { background:#c0392b; }
+  #toast.show, #region-msg.show { opacity:1; }
 </style>
 </head>
 <body>
@@ -129,41 +123,45 @@
 <!-- WELCOME -->
 <div class="overlay active" id="welcome-overlay">
   <div class="card" id="welcome-card">
-    <h1>📖 HomelessMap</h1>
+    <h1>🗺️ HomelessMap</h1>
     <div class="how">
       ✈️ Travelers — share cheap spots, help the next person survive cheaper! 🙏<br>
-      🏪 Local business? Pin your place — FREE advertising!<br><br>
-      📍 Tap map → drop cheap spot instantly<br>
-      🍜 Food under $3 · ✂️ Barber under $3 · 🛏️ Stay under $10<br>
-      👍👎 Vote on pins — wrong prices auto-hide<br>
-      🔓 No sign-up. Free forever.
+      🏪 Local business? Pin your place — it's FREE advertising!<br><br>
+      <b>How it works:</b>
+      📍 Tap map → add a cheap spot<br>
+      🍜 Food under $3 · ✂️ Barber under $3 · 🛏️ Stay under $10/night<br>
+      👍👎 Vote on prices — wrong prices auto-hide<br>
+      🔓 No sign-up needed. Free forever.
     </div>
     <div class="overspend">Overspend today, homeless tomorrow. Spend smart. ❤️</div>
     <div class="disclaimer">
-      All prices are user-submitted and unverified. HomelessMap is not responsible for price changes or inaccuracies. Use at your own discretion. We do not collect personal information.
+      By using HomelessMap you agree that all prices are user-submitted and unverified.
+      HomelessMap is not responsible for price changes or inaccuracies. Use at your own discretion.
+      We do not collect personal information. |
+      <a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a>
     </div>
     <button id="btn-start">Got it — Show me cheap spots! 🚀</button>
   </div>
 </div>
 
-<!-- CATEGORY + PRICE PICKER (shown after map tap) -->
+<!-- CATEGORY + PRICE PICKER -->
 <div class="overlay" id="cat-overlay">
   <div class="card" id="cat-card">
-    <h2>📍 What type of spot?</h2>
+    <h2>📍 Add New Pin</h2>
     <div class="cat-buttons">
       <button class="cat-btn" data-cat="food">
         <span class="icon">🍜</span>
-        <span class="label">Food</span>
+        <span>Food</span>
         <span class="maxprice">max $3</span>
       </button>
       <button class="cat-btn" data-cat="barber">
         <span class="icon">✂️</span>
-        <span class="label">Barber</span>
+        <span>Barber</span>
         <span class="maxprice">max $3</span>
       </button>
       <button class="cat-btn" data-cat="stay">
         <span class="icon">🛏️</span>
-        <span class="label">Stay</span>
+        <span>Stay</span>
         <span class="maxprice">max $10</span>
       </button>
     </div>
@@ -174,11 +172,15 @@
     </div>
     <div class="field-group">
       <label>PLACE NAME (optional)</label>
-      <input type="text" id="input-name" placeholder="e.g. Mama's Noodles"/>
+      <input type="text" id="input-name" placeholder="e.g. Nong's Noodles"/>
     </div>
     <div class="field-group">
-      <label>CONTACT (optional)</label>
-      <input type="text" id="input-contact" placeholder="Phone / Instagram / Line"/>
+      <label>PHONE (optional)</label>
+      <input type="tel" id="input-phone" placeholder="+66 81 234 5678"/>
+    </div>
+    <div class="field-group">
+      <label>INSTAGRAM / LINE / FACEBOOK (optional)</label>
+      <input type="text" id="input-sns" placeholder="@username or page name"/>
     </div>
     <div class="btn-row">
       <button class="btn-cancel" id="btn-cat-cancel">Cancel</button>
@@ -194,27 +196,24 @@
     <div class="pin-name" id="d-name"></div>
     <div class="pin-price" id="d-price"></div>
     <div class="pin-meta"  id="d-meta"></div>
-    <div class="contact-info" id="d-contact" style="display:none"></div>
-    <p style="font-size:.82rem;color:#666;margin-bottom:10px;">💬 Is this price still accurate?</p>
+    <div class="contact-box" id="d-contact"></div>
+    <p style="font-size:.82rem;color:#666;margin-bottom:10px;">Is this price still accurate?</p>
     <div class="vote-row">
-      <button class="vote-btn" id="btn-like">👍 Accurate</button>
-      <button class="vote-btn" id="btn-dislike">👎 Wrong</button>
+      <button class="vote-btn" id="btn-like">👍 Yes</button>
+      <button class="vote-btn" id="btn-dislike">👎 No</button>
     </div>
     <div id="vote-msg"></div>
     <button id="btn-close-detail">Close</button>
   </div>
 </div>
 
-<!-- MAP -->
 <div id="map"></div>
 
-<!-- LEGEND -->
 <div id="legend">
   <b>HomelessMap</b>
   🔴 Food &nbsp;🟡 Barber &nbsp;🔵 Stay
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 <div id="region-msg">⛔ This region is not available</div>
 
@@ -224,7 +223,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, increment, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// ── FIREBASE CONFIG ──
 const firebaseConfig = {
   apiKey: "AIzaSyBjuUCbzlyszfsNbNKHSQLw4TH3hsgI98w",
   authDomain: "homelessmap-e101d.firebaseapp.com",
@@ -236,266 +234,224 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
-const COLLECTION = "pins_world";
+const COL = "pins_world";
 
-// ── EXCLUDED REGIONS (lat/lng bounds) ──
-// Format: [minLat, maxLat, minLng, maxLng]
+// ── EXCLUDED [minLat, maxLat, minLng, maxLng] ──
 const EXCLUDED = [
-  // USA / Canada / Mexico
-  { name:"North America", b:[14, 84, -169, -52] },
-  // China
-  { name:"China", b:[18, 55, 73, 135] },
-  // Japan
-  { name:"Japan", b:[24, 46, 122, 154] },
-  // South Korea
-  { name:"South Korea", b:[33, 39, 124, 130] },
-  // Australia / NZ
-  { name:"Australia/NZ", b:[-50, -10, 110, 180] },
-  // UK
-  { name:"UK", b:[49, 61, -9, 2] },
-  // France (mainland)
-  { name:"France", b:[42, 52, -5, 9] },
-  // Germany
-  { name:"Germany", b:[47, 56, 5, 16] },
-  // Italy
-  { name:"Italy", b:[36, 48, 6, 19] },
-  // Switzerland
-  { name:"Switzerland", b:[45, 48, 5, 11] },
-  // Norway
-  { name:"Norway", b:[57, 72, 4, 32] },
-  // Denmark
-  { name:"Denmark", b:[54, 58, 7, 16] },
-  // Belgium
-  { name:"Belgium", b:[49, 52, 2, 7] },
-  // Netherlands
-  { name:"Netherlands", b:[50, 54, 3, 8] },
-  // Singapore
-  { name:"Singapore", b:[1.1, 1.5, 103.5, 104.1] },
-  // UAE
-  { name:"UAE", b:[22, 27, 51, 57] },
-  // Qatar
-  { name:"Qatar", b:[24, 27, 50, 52] },
-  // Saudi Arabia
-  { name:"Saudi Arabia", b:[16, 33, 36, 56] },
+  [14,  84,  -169, -52],    // USA / Canada / Mexico
+  [18,  55,   73,  135],    // China
+  [24,  46,  122,  154],    // Japan
+  [33,  39,  124,  130],    // South Korea
+  [-50, -10,  110,  180],   // Australia / NZ
+  [49,  61,   -9,    2],    // UK
+  [41,  52,   -5,    9],    // France
+  [47,  56,    5,   16],    // Germany
+  [36,  48,    6,   19],    // Italy
+  [45,  48,    5,   11],    // Switzerland
+  [57,  72,    4,   32],    // Norway
+  [54,  58,    7,   16],    // Denmark
+  [49,  52,    2,    7],    // Belgium
+  [50,  54,    3,    8],    // Netherlands
+  [1.1, 1.5, 103.5, 104.1], // Singapore
+  [22,  27,   51,   57],    // UAE
+  [24,  27,   50,   52],    // Qatar
+  [16,  33,   36,   56],    // Saudi Arabia
 ];
 
 function isExcluded(lat, lng) {
-  for (const r of EXCLUDED) {
-    const [minLat, maxLat, minLng, maxLng] = r.b;
-    if (lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng) return true;
-  }
-  return false;
+  return EXCLUDED.some(([a,b,c,d]) => lat>=a && lat<=b && lng>=c && lng<=d);
 }
 
-// ── MAP INIT ──
-const map = L.map('map', { zoomControl:true }).setView([20, 80], 3);
+// ── MAP ──
+const map = L.map('map', { zoomControl:true }).setView([20, 20], 2);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution:'© OpenStreetMap', maxZoom:19
 }).addTo(map);
 
 // ── HELPERS ──
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
 }
-function showRegionMsg() {
-  const t = document.getElementById('region-msg');
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+function regionMsg() {
+  const el = document.getElementById('region-msg');
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
 }
-function openOverlay(id)  { document.getElementById(id).classList.add('active'); }
-function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
+const open  = id => document.getElementById(id).classList.add('active');
+const close = id => document.getElementById(id).classList.remove('active');
+const isOpen = id => document.getElementById(id).classList.contains('active');
 
-const CAT_COLOR = { food:'red', barber:'gold', stay:'blue' };
-const CAT_ICON  = { food:'🍜', barber:'✂️', stay:'🛏️' };
-const CAT_MAX   = { food:3, barber:3, stay:10 };
-const CAT_LABEL = { food:'Food', barber:'Barber', stay:'Stay' };
+const COLOR = { food:'#e74c3c', barber:'#f1c40f', stay:'#3498db' };
+const ICON  = { food:'🍜', barber:'✂️', stay:'🛏️' };
+const MAX   = { food:3, barber:3, stay:10 };
+const LABEL = { food:'Food', barber:'Barber', stay:'Stay' };
 
-function makeIcon(cat) {
-  const colors = { food:'#e74c3c', barber:'#f1c40f', stay:'#3498db' };
+function mkIcon(cat) {
   return L.divIcon({
     className:'',
-    html:`<div style="
-      background:${colors[cat]};color:#fff;
-      border-radius:50%;width:32px;height:32px;
-      display:flex;align-items:center;justify-content:center;
-      font-size:14px;border:2px solid #fff;
-      box-shadow:0 2px 6px rgba(0,0,0,.3);cursor:pointer;">
-      ${CAT_ICON[cat]}</div>`,
+    html:`<div style="background:${COLOR[cat]};color:#fff;border-radius:50%;
+      width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+      font-size:14px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);
+      cursor:pointer;">${ICON[cat]}</div>`,
     iconSize:[32,32], iconAnchor:[16,16]
   });
 }
 
 // ── STATE ──
-let pendingLatLng = null;
-let selectedCat   = null;
-let currentPinData = null;
-let currentPinId   = null;
-let currentMarkerRef = null;
+let pendingLL = null, selCat = null;
+let curPin = null, curId = null;
+let markerBusy = false;
 
-// ── LOAD PINS FROM FIRESTORE ──
+// ── LOAD ──
 async function loadPins() {
   try {
-    const snap = await getDocs(collection(db, COLLECTION));
+    const snap = await getDocs(collection(db, COL));
     snap.forEach(d => {
-      const p = { id: d.id, ...d.data() };
-      if (p.likes !== undefined && p.dislikes !== undefined) {
-        if (p.dislikes > p.likes * 2 && p.dislikes > 3) return; // auto-hide bad pins
-      }
-      placeMarker(p);
+      const p = { id:d.id, ...d.data() };
+      if ((p.dislikes||0) > (p.likes||0)*2 && (p.dislikes||0) > 3) return;
+      addMarker(p);
     });
   } catch(e) { console.error(e); }
 }
 
-function placeMarker(pin) {
-  const marker = L.marker([pin.lat, pin.lng], { icon: makeIcon(pin.cat) }).addTo(map);
-  marker.on('click', function(e) {
-    // STOP propagation — prevent map click from firing
+function addMarker(pin) {
+  const m = L.marker([pin.lat, pin.lng], { icon:mkIcon(pin.cat) }).addTo(map);
+  m.on('click', function(e) {
+    markerBusy = true;
     L.DomEvent.stopPropagation(e);
     if (e.originalEvent) e.originalEvent.stopPropagation();
-    openDetail(pin, marker);
+    if (isOpen('cat-overlay')) { close('cat-overlay'); resetForm(); }
+    showDetail(pin);
+    setTimeout(() => { markerBusy = false; }, 200);
   });
-  return marker;
 }
 
-// ── MAP CLICK → drop pin ──
+// ── MAP CLICK ──
 map.on('click', function(e) {
-  // If any overlay is open, close it instead
-  if (document.getElementById('cat-overlay').classList.contains('active')) {
-    closeOverlay('cat-overlay'); resetCatForm(); return;
-  }
-  if (document.getElementById('detail-overlay').classList.contains('active')) {
-    closeOverlay('detail-overlay'); return;
-  }
-
+  if (markerBusy) return;
+  if (isOpen('detail-overlay')) { close('detail-overlay'); return; }
+  if (isOpen('cat-overlay'))    { close('cat-overlay'); resetForm(); return; }
   const { lat, lng } = e.latlng;
-
-  if (isExcluded(lat, lng)) { showRegionMsg(); return; }
-
-  // Save click position and open category picker
-  pendingLatLng = { lat, lng };
-  openOverlay('cat-overlay');
+  if (isExcluded(lat, lng)) { regionMsg(); return; }
+  pendingLL = { lat, lng };
+  open('cat-overlay');
 });
 
-// ── CATEGORY SELECTION ──
+// ── CATEGORY ──
 document.querySelectorAll('.cat-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
-    selectedCat = btn.dataset.cat;
-    const max = CAT_MAX[selectedCat];
-    document.getElementById('price-hint').textContent = `Max $${max}.00 for this category`;
-    document.getElementById('input-price').max = max;
-    document.getElementById('input-price').placeholder = `e.g. ${max === 3 ? '2.50' : '8.00'}`;
+    selCat = btn.dataset.cat;
+    document.getElementById('price-hint').textContent = `Max $${MAX[selCat]}.00 for ${LABEL[selCat]}`;
+    document.getElementById('input-price').max = MAX[selCat];
+    document.getElementById('input-price').placeholder = MAX[selCat]===10 ? 'e.g. 8.00' : 'e.g. 2.50';
   });
 });
 
-function resetCatForm() {
-  selectedCat = null; pendingLatLng = null;
+function resetForm() {
+  selCat = null; pendingLL = null;
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('input-price').value = '';
-  document.getElementById('input-name').value  = '';
-  document.getElementById('input-contact').value = '';
+  ['input-price','input-name','input-phone','input-sns'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
   document.getElementById('price-hint').textContent = 'Select a category first';
 }
 
-document.getElementById('btn-cat-cancel').addEventListener('click', () => {
-  closeOverlay('cat-overlay'); resetCatForm();
-});
+document.getElementById('btn-cat-cancel').onclick = () => { close('cat-overlay'); resetForm(); };
 
-document.getElementById('btn-cat-submit').addEventListener('click', async () => {
-  if (!selectedCat) { showToast('Please select a category'); return; }
-  const priceVal = parseFloat(document.getElementById('input-price').value);
-  if (isNaN(priceVal) || priceVal <= 0) { showToast('Enter a valid price'); return; }
-  if (priceVal > CAT_MAX[selectedCat]) {
-    showToast(`Max price for ${CAT_LABEL[selectedCat]} is $${CAT_MAX[selectedCat]}`); return;
-  }
-  const name    = document.getElementById('input-name').value.trim();
-  const contact = document.getElementById('input-contact').value.trim();
+document.getElementById('btn-cat-submit').onclick = async () => {
+  if (!selCat) { toast('Please select Food / Barber / Stay'); return; }
+  const price = parseFloat(document.getElementById('input-price').value);
+  if (!price || price <= 0) { toast('Enter a valid price'); return; }
+  if (price > MAX[selCat]) { toast(`Max $${MAX[selCat]} for ${LABEL[selCat]}`); return; }
+  if (!pendingLL) { toast('No location'); return; }
 
-  const pinData = {
-    lat: pendingLatLng.lat, lng: pendingLatLng.lng,
-    cat: selectedCat, price: priceVal,
-    name: name || CAT_LABEL[selectedCat],
-    contact: contact,
-    likes: 0, dislikes: 0,
+  const name  = document.getElementById('input-name').value.trim();
+  const phone = document.getElementById('input-phone').value.trim();
+  const sns   = document.getElementById('input-sns').value.trim();
+
+  const pin = {
+    lat: pendingLL.lat, lng: pendingLL.lng,
+    cat: selCat, price,
+    name: name || LABEL[selCat],
+    phone, sns,
+    likes:0, dislikes:0,
     ts: serverTimestamp()
   };
 
   try {
-    const docRef = await addDoc(collection(db, COLLECTION), pinData);
-    pinData.id = docRef.id;
-    placeMarker(pinData);
-    closeOverlay('cat-overlay');
-    resetCatForm();
-    showToast('Pin added! ✅');
+    const ref = await addDoc(collection(db, COL), pin);
+    pin.id = ref.id;
+    addMarker(pin);
+    close('cat-overlay');
+    resetForm();
+    toast('Pin added! ✅');
   } catch(err) {
     console.error(err);
-    showToast('Error saving pin. Try again.');
+    toast('Error saving. Try again.');
   }
-});
+};
 
-// ── DETAIL VIEW ──
-function openDetail(pin, markerRef) {
-  currentPinData  = pin;
-  currentPinId    = pin.id;
-  currentMarkerRef = markerRef;
-
-  document.getElementById('d-type').textContent  = `${CAT_ICON[pin.cat]} ${CAT_LABEL[pin.cat]}`;
-  document.getElementById('d-name').textContent  = pin.name || CAT_LABEL[pin.cat];
+// ── DETAIL ──
+function showDetail(pin) {
+  curPin = pin; curId = pin.id;
+  document.getElementById('d-type').textContent  = `${ICON[pin.cat]} ${LABEL[pin.cat]}`;
+  document.getElementById('d-name').textContent  = pin.name || LABEL[pin.cat];
   document.getElementById('d-price').textContent = `$${Number(pin.price).toFixed(2)}`;
   document.getElementById('d-meta').textContent  = `👍 ${pin.likes||0}  👎 ${pin.dislikes||0}`;
   document.getElementById('vote-msg').textContent = '';
 
   const contactEl = document.getElementById('d-contact');
-  if (pin.contact) {
+  let lines = [];
+  if (pin.phone) lines.push(`📞 ${pin.phone}`);
+  if (pin.sns)   lines.push(`📲 ${pin.sns}`);
+  if (!lines.length && pin.contact) lines.push(`💬 ${pin.contact}`);
+  if (lines.length) {
+    contactEl.textContent = lines.join('\n');
     contactEl.style.display = 'block';
-    contactEl.textContent = `💬 ${pin.contact}`;
   } else {
     contactEl.style.display = 'none';
   }
-
-  openOverlay('detail-overlay');
+  open('detail-overlay');
 }
 
-document.getElementById('btn-like').addEventListener('click', async () => {
-  if (!currentPinId) return;
+document.getElementById('btn-like').onclick = async () => {
+  if (!curId) return;
   try {
-    await updateDoc(doc(db, COLLECTION, currentPinId), { likes: increment(1) });
-    document.getElementById('vote-msg').textContent = '✅ Thanks for voting!';
-    currentPinData.likes = (currentPinData.likes || 0) + 1;
-    document.getElementById('d-meta').textContent = `👍 ${currentPinData.likes}  👎 ${currentPinData.dislikes||0}`;
-  } catch(e) { showToast('Vote failed'); }
-});
+    await updateDoc(doc(db,COL,curId), { likes: increment(1) });
+    document.getElementById('vote-msg').textContent = '✅ Thanks!';
+    curPin.likes = (curPin.likes||0)+1;
+    document.getElementById('d-meta').textContent = `👍 ${curPin.likes}  👎 ${curPin.dislikes||0}`;
+  } catch(e) { toast('Vote failed'); }
+};
 
-document.getElementById('btn-dislike').addEventListener('click', async () => {
-  if (!currentPinId) return;
+document.getElementById('btn-dislike').onclick = async () => {
+  if (!curId) return;
   try {
-    await updateDoc(doc(db, COLLECTION, currentPinId), { dislikes: increment(1) });
-    document.getElementById('vote-msg').textContent = '⚠️ Thanks — bad prices auto-hide!';
-    currentPinData.dislikes = (currentPinData.dislikes || 0) + 1;
-    document.getElementById('d-meta').textContent = `👍 ${currentPinData.likes||0}  👎 ${currentPinData.dislikes}`;
-  } catch(e) { showToast('Vote failed'); }
-});
+    await updateDoc(doc(db,COL,curId), { dislikes: increment(1) });
+    document.getElementById('vote-msg').textContent = '⚠️ Bad prices auto-hide!';
+    curPin.dislikes = (curPin.dislikes||0)+1;
+    document.getElementById('d-meta').textContent = `👍 ${curPin.likes||0}  👎 ${curPin.dislikes}`;
+  } catch(e) { toast('Vote failed'); }
+};
 
-document.getElementById('btn-close-detail').addEventListener('click', () => {
-  closeOverlay('detail-overlay');
-});
+document.getElementById('btn-close-detail').onclick = () => close('detail-overlay');
 
-// ── WELCOME ──
-document.getElementById('btn-start').addEventListener('click', () => {
-  closeOverlay('welcome-overlay');
-  loadPins();
-});
-
-// Tap outside card to close detail
 document.getElementById('detail-overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeOverlay('detail-overlay');
+  if (e.target===this) close('detail-overlay');
 });
 document.getElementById('cat-overlay').addEventListener('click', function(e) {
-  if (e.target === this) { closeOverlay('cat-overlay'); resetCatForm(); }
+  if (e.target===this) { close('cat-overlay'); resetForm(); }
 });
+
+// ── START ──
+document.getElementById('btn-start').onclick = () => {
+  close('welcome-overlay');
+  loadPins();
+};
 </script>
 </body>
 </html>
