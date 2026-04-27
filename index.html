@@ -405,7 +405,8 @@ function placeMarker(pin) {
   marker.bindTooltip(label, { permanent: true, direction: 'top', offset: [0,-8], className: 'price-tip' });
   marker.on('click', function(e) {
     L.DomEvent.stopPropagation(e);
-    openDetail(pin);
+   e.originalEvent.stopPropagation();
+   openDetail(pin);
   });
 }
 
