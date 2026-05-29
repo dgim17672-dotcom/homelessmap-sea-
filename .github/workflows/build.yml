@@ -22,7 +22,7 @@ jobs:
           curl -L "https://median.co/app/qf1kd47evf0fj43n3kb25r5600/download/aab" -o app.aab
 
       - name: Sign AAB
-        uses: r0adkll/sign-android-release@v1
+        uses: r0adkll/sign-android-release@v2
         with:
           releaseDirectory: .
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
